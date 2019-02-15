@@ -3,7 +3,6 @@ This is a step-by-step tutorial to use your PICO-8 cartridges on your Android ph
 
 *using google translate*
 
-[tweet]1081383766868746243[/tweet]
 
 At the beginning of the year I started using PICO-8 when I found out that Celeste was born from such a simple concept.
 The first thing I could discover using PICO is that you can export to html...
@@ -50,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
 }
 
 ```
+<img>https://www.lexaloffle.com/bbs/files/35039/pico_8_android.png</img>
 
-[img]/bbs/files/35039/pico_8_android.png[/img]
 
 So as you can see we are calling a simple html on android to be able to show our game. It seems the easiest way to have your first android application working.
 
