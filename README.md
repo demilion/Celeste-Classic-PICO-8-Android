@@ -49,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
 }
 
 ```
-<img>https://www.lexaloffle.com/bbs/files/35039/pico_8_android.png</img>
+![alt text](https://www.lexaloffle.com/bbs/files/35039/pico_8_android.png)
+
+
 
 
 So as you can see we are calling a simple html on android to be able to show our game. It seems the easiest way to have your first android application working.
