@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>PICO-8 Cartridge</title>
+        <meta name="description" content="">
+
+<STYLE TYPE="text/css">
+
+
+.btn {
+  border: solid 1px #555;
+  position: absolute;
+  box-shadow: 0px 10px 20px #000;
+}
+.btn:active {
+  box-shadow: 0px 2px 10px #111;
+}
+.btn-round {
+  width: 20vw;
+  height: 20vw;
+  border-radius: 20vw;
+  background: #a23064;
+  top: 5vw;
+}
+#btn-z {
+  right: 25vw;
+}
+#btn-x {
+  right: 0vw;
+}
+.btn-square {
+  width: 10vw;
+  height: 10vw;
+  border-radius: 4vw;
+  background: #000;
+}
+#btn-up {
+  top: 0;
+  left: 10vw;
+}
+#btn-right {
+  top: 10vw;
+  left: 20vw;
+}
+#btn-down {
+  bottom: 0;
+  left: 10vw;
+}
+#btn-left {
+  top: 10vw;
+  left: 0vw;
+}
+.btn-pill {
+  width: 20vw;
+  height: 2.5vw;
+  border-radius: 2.5vw;
+  background: #999;
+}
+#btn-start {
+  right: 50vw;
+  transform: translate(10vw, 0);
+  bottom: 10;
+}
+#controller-wrapper {
+  position: relative;
+  width: 100%;
+  height: 30vw;
+  background: #444;
+}
+
+
+
+<!--
+
+canvas#canvas {width: 100%;height: 50%;}
+
+.pico8_el {
+	float:left;
+	width:100px;
+	display:inline-block; 
+  	margin: 5px;
+	padding: 4px;
+	text-align: center;
+	color:#fff;
+	background-color:#777;
+	font-family : verdana;
+	font-size: 9pt;
+	cursor: pointer;
+	cursor: hand;
+}
+.pico8_el a{
+	text-decoration: none;
+	color:#fff;
+}
+
+.pico8_el:hover{
+	background-color:#aaa;
+}
+
+.pico8_el:link{
+	background-color:#aaa;
+}
+
+canvas{
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+    image-rendering: pixelated;
+    -ms-interpolation-mode: nearest-neighbor;
+    border: 0px
+}
+
+-->
+</STYLE>
+    
+</head>
+
+
+
+
+	<center><div style="width:580px;max-width:100%;">
+
+	<canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas");
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+
+		// show Emscripten environment where the canvas is
+		// arguments are passed to PICO-8
+		
+		var Module = {
+		
+			arguments: ["-width","580","-height","540"],
+		};
+		Module.canvas = canvas;
+		/*
+			// When pico8_buttons is defined, PICO-8 takes each int to be a live bitfield
+			// representing the state of each player's buttons
+			
+			var pico8_buttons = [0, 0, 0, 0, 0, 0, 0, 0]; // max 8 players
+			pico8_buttons[0] = 2 | 16; // example: player 0, RIGHT and Z held down
+		*/
+	</script>
+
+	
+	
+	  
+	<script>
+		// key blocker. prevent cursor keys from scrolling page while playing cart.
+		
+		function onKeyDown_blocker(event) {
+			event = event || window.event;
+			var o = document.activeElement;
+			if (!o || o == document.body || o.tagName == "canvas")
+			{
+				if ([32, 37, 38, 39, 40].indexOf(event.keyCode) > -1)
+				{
+					if (event.preventDefault) event.preventDefault();
+				}
+			}
+		}
+
+		document.addEventListener('keydown', onKeyDown_blocker, false);
+
+	</script>
+        
+	</div></center>
+	<br><br>
+
+
+<body bgcolor=#000000>
+
+		<br><br><br>
+
+	
+	
+
+<div id="controller-wrapper">
+	<div id="btn-up" class="btn btn-square"></div>
+	<div id="btn-right" class="btn btn-square"></div>
+	<div id="btn-down" class="btn btn-square"></div>
+	<div id="btn-left" class="btn btn-square"></div>
+	
+	<div id="btn-z" class="btn btn-round"></div>
+	<div id="btn-x" class="btn btn-round"></div>
+	
+	<div id="btn-start" class="btn btn-pill"></div>
+</div>
+<div id="textbox" ></div>
+
+<canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+
+<center><div style="width:512px;">
+
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas");
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+
+		// show Emscripten environment where the canvas is
+		// arguments are passed to PICO-8
+		
+		var Module = {};
+		Module.canvas = canvas;
+		
+		/*
+			// When pico8_buttons is defined, PICO-8 takes each int to be a live bitfield
+			// representing the state of each player's buttons
+			
+			var pico8_buttons = [0, 0, 0, 0, 0, 0, 0, 0]; // max 8 players
+			pico8_buttons[0] = 2 | 16; // example: player 0, RIGHT and Z held down
+			
+			// when pico8_gpio is defined, reading and writing to gpio pins will
+			// read and write to these values
+			var pico8_gpio = new Array(128);
+		*/
+	</script>
+
+	<script async type="text/javascript" src="icotris.js"></script>
+	  
+	<script>
+		// key blocker. prevent cursor keys from scrolling page while playing cart.
+		
+		function onKeyDown_blocker(event) {
+			event = event || window.event;
+			var o = document.activeElement;
+			if (!o || o == document.body || o.tagName == "canvas")
+			{
+				if ([32, 37, 38, 39, 40].indexOf(event.keyCode) > -1)
+				{
+					if (event.preventDefault) event.preventDefault();
+				}
+			}
+		}
+
+		document.addEventListener('keydown', onKeyDown_blocker, false);
+
+	</script>
+
+	<script>
+//controles
+
+var debugInputs = false;
+
+// button to keyboard events
+function SimulateKey(k)
+{
+	// keyboard event chrome hack from
+	// http://stackoverflow.com/questions/10455626/keydown-simulation-in-chrome-fires-normally-but-not-the-correct-key/10520017#10520017
+	  var oEvent = document.createEvent('KeyboardEvent');
+
+    // Chromium Hack
+    Object.defineProperty(oEvent, 'keyCode', {
+                get : function() {
+                    return this.keyCodeVal;
+                }
+    });     
+    Object.defineProperty(oEvent, 'which', {
+                get : function() {
+                    return this.keyCodeVal;
+                }
+    });     
+
+    if (oEvent.initKeyboardEvent) {
+        oEvent.initKeyboardEvent("keydown", true, true, document.defaultView, false, false, false, false, k, k);
+    } else {
+        oEvent.initKeyEvent("keydown", true, true, document.defaultView, false, false, false, false, k, 0);
+    }
+
+    oEvent.keyCodeVal = k;
+
+    if (oEvent.keyCode !== k) {
+        alert("keyCode mismatch " + oEvent.keyCode + "(" + oEvent.which + ")");
+    }
+
+    document.dispatchEvent(oEvent);
+}
+
+// button to keyboard events release
+function SimulateKeyUp(k)
+{
+	  var oEvent = document.createEvent('KeyboardEvent');
+
+    // Chromium Hack
+    Object.defineProperty(oEvent, 'keyCode', {
+                get : function() {
+                    return this.keyCodeVal;
+                }
+    });     
+    Object.defineProperty(oEvent, 'which', {
+                get : function() {
+                    return this.keyCodeVal;
+                }
+    });     
+
+    if (oEvent.initKeyboardEvent) {
+        oEvent.initKeyboardEvent("keyup", true, true, document.defaultView, false, false, false, false, k, k);
+    } else {
+        oEvent.initKeyEvent("keyup", true, true, document.defaultView, false, false, false, false, k, 0);
+    }
+
+    oEvent.keyCodeVal = k;
+
+    if (oEvent.keyCode !== k) {
+        alert("keyCode mismatch " + oEvent.keyCode + "(" + oEvent.which + ")");
+    }
+
+    document.dispatchEvent(oEvent);
+}
+
+
+// catch buttons down
+document.getElementById("btn-z").addEventListener('touchstart', function() {
+	SimulateKey(90);
+}, false);
+document.getElementById("btn-x").addEventListener('touchstart', function() {
+	SimulateKey(88);
+}, false);
+
+document.getElementById("btn-up").addEventListener('touchstart', function() {
+	SimulateKey(38);
+}, false);
+document.getElementById("btn-right").addEventListener('touchstart', function() {
+	SimulateKey(39);
+}, false);
+document.getElementById("btn-down").addEventListener('touchstart', function() {
+	SimulateKey(40);
+}, false);
+document.getElementById("btn-left").addEventListener('touchstart', function() {
+	SimulateKey(37);
+}, false);
+document.getElementById("btn-start").addEventListener('touchstart', function() {
+	Module.pico8TogglePaused();
+}, false);
+
+//////////////////////////////////////////
+
+
+
+//////////////////////////////////////////
+
+// catch buttons up
+document.getElementById("btn-z").addEventListener('touchend', function() {
+	SimulateKeyUp(90);
+}, false);
+document.getElementById("btn-x").addEventListener('touchend', function() {
+	SimulateKeyUp(88);
+}, false);
+
+document.getElementById("btn-up").addEventListener('touchend', function() {
+	SimulateKeyUp(38);
+}, false);
+document.getElementById("btn-right").addEventListener('touchend', function() {
+	SimulateKeyUp(39);
+}, false);
+document.getElementById("btn-down").addEventListener('touchend', function() {
+	SimulateKeyUp(40);
+}, false);
+document.getElementById("btn-left").addEventListener('touchend', function() {
+	SimulateKeyUp(37);
+}, false);
+
+
+
+
+
+
+
+// get the debug input box
+if(debugInputs)
+{
+	var textB = document.getElementById("textbox");
+	textB.innerHTML += "Inputs:</br>";
+	
+	// This is just to test/ print results
+window.addEventListener("keydown", function (event) {
+  if (event.defaultPrevented) {
+    return; // Should do nothing if the key event was already consumed.
+  }
+	
+	textB.innerHTML = event.which + ", " + String.fromCharCode(event.which)  + ", down</br>" + textB.innerHTML;
+
+  // Consume the event for suppressing "double action".
+  event.preventDefault();
+}, true);
+
+// listen for key up
+window.addEventListener("keyup", function (event) {
+  if (event.defaultPrevented) {
+    return; // Should do nothing if the key event was already consumed.
+  }
+	
+	textB.innerHTML = event.which + ", " + String.fromCharCode(event.which)  + ", up</br>" + textB.innerHTML;
+
+  // Consume the event for suppressing "double action".
+  event.preventDefault();
+}, true);
+
+}
+
+</script>
+
+</body>
+</html>

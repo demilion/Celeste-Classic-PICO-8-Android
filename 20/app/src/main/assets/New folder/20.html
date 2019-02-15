@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>EjemploWebView</title>
+<style type="text/css">
+* {
+	        box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+body {
+	background: #000;
+	margin: 0;	
+	overflow: hidden;
+	        user-select: none;
+	   -moz-user-select: none;
+	-webkit-user-select: none;
+}
+
+#game {
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+}
+
+.tile {
+	position: absolute;
+	border-radius: 5px;
+	transition: top 0.3s linear, left 0.1s linear, opacity 0.1s linear, background-color 0.5s linear; 
+	font-family: 'Impact', sans-serif;
+	font-size: 8vh;
+	line-height: 8vh;
+	text-align: center;
+	text-overflow: hidden;
+	overflow: hidden;
+	padding: 1vh;
+	width: 10vw;
+	height: 10vh;
+	background: #000;
+	color: #044;
+	border: 1px solid black;
+	cursor: pointer;
+}
+
+.sel {
+	background: #fff!important;
+}
+
+.yh { top:-10vh; }
+.y0 { top:  0 ; } .x0 { left:  0 ; }
+.y1 { top: 10vh; } .x1 { left: 10vw; }
+.y2 { top: 20vh; } .x2 { left: 20vw; }
+.y3 { top: 30vh; } .x3 { left: 30vw; }
+.y4 { top: 40vh; } .x4 { left: 40vw; }
+.y5 { top: 50vh; } .x5 { left: 50vw; }
+.y6 { top: 60vh; } .x6 { left: 60vw; }
+.y7 { top: 70vh; } .x7 { left: 70vw; }
+.y8 { top: 80vh; } .x8 { left: 80vw; }
+.y9 { top: 90vh; } .x9 { left: 90vw; }
+.fade-out {
+	opacity:0;
+}
+
+</style>
+
+</head>
+<body>
+  
+ <div id=game></div> 
+  
+
+
+<script type="text/javascript">
+R=Math.random,d=document,moves=0
+// mini jquery ;) (equivalent to dev console's native $/$$ functions)
+$ =function(x,c){return(c||d).querySelector(x)}
+$$=function(x,c){return[].slice.call((c||d).querySelectorAll(x))}
+$T=function $T(x,y){return $('.tile.x'+x+'.y'+(y<0?'h':y))} // get tile
+lock=function(l){game.classList[l?'add':'remove']('lock')}
+
+// create tile
+function tile(x,y,v,t){
+	t=document.createElement('div')
+	t.setPos=function(x,y){t.pos={x:x,y:y};t.setAttribute('class','tile x'+x+' y'+(y<0?'h':y))}
+	t.setVal=function(v){t.textContent=v;t.style.backgroundColor='hsl('+((v*30)%60)+',100%,'+(30+v*5)+'%)'}
+	t.setVal(v);t.setPos(x,y)
+	return t
+}
+
+// remove tile and execute callback on transition end
+function removeTile(t,cb,ex,h){
+	t.classList.add('fade-out')
+	setTimeout(function(){
+		try{game.removeChild(t)}catch(ex){console.log(ex.message)}
+		if(cb)cb()
+	},100)
+}
+
+// get adjacent tiles with same numbers
+function getAdjacentTiles(t,t0,t1,l,D,v,r,i){
+	for(r=[],v=t.textContent,i=4,D="01211012";i--;){
+		l=[D[i*2]-1,D[i*2+1]-1]
+		t1=$T(t.pos.x+l[0],t.pos.y+l[1])
+		if(t1&&t1!=t0&&t1.textContent==v&&!t1.classList.contains('sel'))
+			t1.classList.add('sel'),r.push(t1),[].push.apply(r,getAdjacentTiles(t1,t0?t0:t))
+	}
+	return r
+}
+
+function interAction(t,a,b,m){
+	if (game.classList.contains('lock')||$$('.sel').length>0)return
+	m=t.textContent|0
+	if(m>0&&(a=getAdjacentTiles(t)).length>0)moves++,lock(true),~function removeTiles(){
+		if (a.length>0)return b=a.pop(),removeTile(b,removeTiles)
+		t.setVal(m-1)
+		~function fall(r,f,x,y,t){
+			for(f=0,y=8;y>=-1;y--)for(x=10;x--;)
+				if((t=$T(x,y))&&!$T(x,y+1))t.setPos(x,y+1),f++	
+			if(f>0)return setTimeout(function(){fall(r)},200)
+			if(r>0){for(x=10;x--;)
+				if(!$T(x,0)&&R()<.5)
+					game.appendChild(tile(x,-1,7+(R()*3)|0))
+					setTimeout(function(){fall(r-1)},200)}
+			lock(false)
+		}(1)
+	}()
+}
+
+// init game
+for(i=10;i--;)
+	for(j=10;j--;)
+		game.appendChild(tile(i,j,7+(R()*3)|0))
+
+window.onclick=function(e){if(e.target.classList.contains('tile'))interAction(e.target)}
+</script>
+</body>
+</html>
