@@ -62,21 +62,15 @@ I leave my code so you can steal it ...
 
 It has a couple of extra lines such as having ads or integrated purchases.
 
-{\\__/}
+{\__/}
 ( • . •)
-/>♥    u want this?...
+/>🥃    u want this?...
  
 
 
-{\\__/}
+{\__/}
 ( • . •)
-♥< \  NoOoOoOoO
-
-
-{\\__/}
-( • . •)
-/>♥     im joking
- 
+🥃< \  NOonoon
 
 Let me know what you think!!!!!!
 ## https://play.google.com/store/apps/details?id=com.demilion.a20
