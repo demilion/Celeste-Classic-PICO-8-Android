@@ -61,6 +61,8 @@ And you don´t need as much knowledge to publish your Pico-8 game on Google play
 
 I leave my code so you can steal it ...
 
+[![ko-fi](https://www.ko-fi.com/img/donate_sm.png)](https://ko-fi.com/V7V1R1YJ)
+
 It has a couple of extra lines such as having ads or integrated purchases.
 
 Let me know what you think!!!!!!
