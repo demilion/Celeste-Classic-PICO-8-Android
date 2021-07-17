@@ -66,5 +66,5 @@ I leave my code so you can steal it ...
 It has a couple of extra lines such as having ads or integrated purchases.
 
 Let me know what you think!!!!!!
-## https://play.google.com/store/apps/details?id=com.demilion.a52in1a
+## https://apkpure.com/es/celeste-classic/com.demilion.a20
 
